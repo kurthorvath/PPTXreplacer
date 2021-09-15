@@ -43,6 +43,7 @@ def search_and_replace(search_str, repl_str, input, output):
     for slide in prs.slides:
         for shape in slide.shapes:
             if shape.has_text_frame:
+                print(shape.text)
                 if(shape.text.find(search_str))!=-1:
                     text_frame = shape.text_frame
                     cur_text = text_frame.paragraphs[0].runs[0].text
@@ -64,10 +65,10 @@ def replace_key(key, index, type):
         print(KEY)
         first, last, ttime, category = search_user(key,str(ind),data)
         print( first+' '+last,ttime,category)
-        if(type == '_TIME'):
-            search_and_replace(KEY,ttime,'OUT.pptx','OUT.pptx' ) 
-        else:
-            search_and_replace(KEY,first+' '+last,'OUT.pptx','OUT.pptx' ) 
+        #if(type == '_TIME'):
+        #    search_and_replace(KEY,ttime,'OUT.pptx','OUT.pptx' ) 
+        #else:
+        search_and_replace(KEY,first+' '+last+'\n'+'TIME. '+ttime,'OUT.pptx','OUT.pptx' ) 
 
 print("start...")
 shutil.copy2('_Presentation_AG-1-3.pptx', 'OUT.pptx') 
@@ -80,8 +81,10 @@ data = r.json()
 for key in categ:
     for ind in range(1, 4):
         replace_key(key, ind, '_NAME') # FIRST Replace Name
-        replace_key(key, ind, '_TIME') # SECOND Replace Rime
+        #replace_key(key, ind, '_TIME') # SECOND Replace Rime
 
+
+#search_and_replace('Franz','Fuchs\nLEO','IN.pptx','OUT1.pptx' )
 prs.save('OUT.pptx') 
-#search_and_replace('F40_1_TIME','AAbbbA','OUT.pptx','OUT.pptx' )
+
 print("... done!")
